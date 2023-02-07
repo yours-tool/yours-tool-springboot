@@ -1,4 +1,7 @@
 spring:
+  output:
+    ansi:
+      enabled: always
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
@@ -57,8 +60,8 @@ mybatis-plus:
       logic-delete-field: isDelete
 
 logging:
-  level:
-    com.xkcoding.rbac.security: debug
+  config: classpath:log4j2.xml
+
 
 knife4j:
   # 是否开启Knife4j增强模式
@@ -86,3 +89,5 @@ knife4j:
     swaggerModelName: 实体类列表
     # 是否显示界面中"文档管理"功能
     enableDocumentManage: true
+
+

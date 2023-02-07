@@ -300,6 +300,7 @@
                     <!-- 项目打包完成的包中只包含当前环境文件 -->
                     <include>application.yml</include>
                     <include>application-*.yml</include>
+                    <include>log4j2.xml</include>
                 </includes>
             </resource>
             <resource>

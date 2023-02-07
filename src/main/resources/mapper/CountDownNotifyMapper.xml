@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="generator.mapper.CountDownNotifyMapper">
+<mapper namespace="yours.tool.springboot.mapper.CountDownNotifyMapper">
 
-    <resultMap id="BaseResultMap" type="generator.domain.CountDownNotify">
+    <resultMap id="BaseResultMap" type="yours.tool.springboot.pojo.entity.CountDownNotify">
             <id property="countDownNotifyId" column="count_down_notify_id" jdbcType="BIGINT"/>
             <result property="countDownId" column="count_down_id" jdbcType="BIGINT"/>
             <result property="content" column="content" jdbcType="VARCHAR"/>

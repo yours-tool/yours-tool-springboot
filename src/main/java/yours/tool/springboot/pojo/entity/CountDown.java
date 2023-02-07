@@ -40,103 +40,73 @@ public class CountDown implements Serializable {
     */
     private BigDecimal money;
 
-    /**
-    * 倒计时id
-    */
-    private void setCountDownId(Long countDownId){
-    this.countDownId = countDownId;
+    public Long getCountDownId() {
+        return countDownId;
     }
 
-    /**
-    * 用户id
-    */
-    private void setUserId(Long userId){
-    this.userId = userId;
+    public void setCountDownId(Long countDownId) {
+        this.countDownId = countDownId;
     }
 
-    /**
-    * 主题
-    */
-    private void setSubject(String subject){
-    this.subject = subject;
+    public Long getUserId() {
+        return userId;
     }
 
-    /**
-    * 类型
-    */
-    private void setType(String type){
-    this.type = type;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
-    /**
-    * 日期
-    */
-    private void setDate(Date date){
-    this.date = date;
+    public String getSubject() {
+        return subject;
     }
 
-    /**
-    * 标签（以|分隔）
-    */
-    private void setLabel(String label){
-    this.label = label;
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 
-    /**
-    * 金钱
-    */
-    private void setMoney(BigDecimal money){
-    this.money = money;
+    public String getType() {
+        return type;
     }
 
-
-    /**
-    * 倒计时id
-    */
-    private Long getCountDownId(){
-    return this.countDownId;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    /**
-    * 用户id
-    */
-    private Long getUserId(){
-    return this.userId;
+    public Date getDate() {
+        return date;
     }
 
-    /**
-    * 主题
-    */
-    private String getSubject(){
-    return this.subject;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
-    /**
-    * 类型
-    */
-    private String getType(){
-    return this.type;
+    public String getLabel() {
+        return label;
     }
 
-    /**
-    * 日期
-    */
-    private Date getDate(){
-    return this.date;
+    public void setLabel(String label) {
+        this.label = label;
     }
 
-    /**
-    * 标签（以|分隔）
-    */
-    private String getLabel(){
-    return this.label;
+    public BigDecimal getMoney() {
+        return money;
     }
 
-    /**
-    * 金钱
-    */
-    private BigDecimal getMoney(){
-    return this.money;
+    public void setMoney(BigDecimal money) {
+        this.money = money;
     }
 
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("CountDown{");
+        sb.append("countDownId=").append(countDownId);
+        sb.append(", userId=").append(userId);
+        sb.append(", subject='").append(subject).append('\'');
+        sb.append(", type='").append(type).append('\'');
+        sb.append(", date=").append(date);
+        sb.append(", label='").append(label).append('\'');
+        sb.append(", money=").append(money);
+        sb.append('}');
+        return sb.toString();
+    }
 }
