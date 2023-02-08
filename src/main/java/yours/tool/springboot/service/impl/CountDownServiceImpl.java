@@ -1,11 +1,11 @@
 package yours.tool.springboot.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +14,10 @@ import yours.tool.springboot.mapper.CountDownMapper;
 import yours.tool.springboot.pojo.base.PageVo;
 import yours.tool.springboot.pojo.dto.CountDownDto;
 import yours.tool.springboot.pojo.dto.CountDownListDto;
+import yours.tool.springboot.pojo.dto.CountDownUpdateDto;
 import yours.tool.springboot.pojo.entity.CountDown;
 import yours.tool.springboot.pojo.vo.CountDownListVo;
+import yours.tool.springboot.pojo.vo.CountDownVo;
 import yours.tool.springboot.service.CountDownService;
 
 import java.util.List;
@@ -62,6 +64,26 @@ public class CountDownServiceImpl implements CountDownService {
         countDownListVoPage = countDownMapper.selectPage(countDownListVoPage,countDownLambdaQueryWrapper);
         List<CountDownListVo> countDownListVos = BeanUtil.copyToList(countDownListVoPage.getRecords(), CountDownListVo.class);
         return new PageVo<>(countDownListVos, countDownListVoPage.getTotal());
+    }
+
+    @Override
+    public CountDownVo detail(String countDownId) {
+        CountDown countDown = countDownMapper.selectById(countDownId);
+        CountDownVo countDownVo = BeanUtil.copyProperties(countDown, CountDownVo.class);
+        return countDownVo;
+    }
+
+    @Override
+    public void update(CountDownUpdateDto countDownUpdateDto) {
+        CountDown countDown = new CountDown();
+        countDown.setCountDownId(Convert.toLong(countDownUpdateDto.getCountDownId()));
+        countDown.setUserId(1L);
+        countDown.setSubject(countDownUpdateDto.getSubject());
+        countDown.setType(countDownUpdateDto.getType());
+        countDown.setDate(countDownUpdateDto.getDate());
+        countDown.setLabel(countDownUpdateDto.getLabel().stream().collect(Collectors.joining("|")));
+        countDown.setMoney(countDownUpdateDto.getMoney());
+        countDownMapper.updateById(countDown);
     }
 
 }

@@ -2,17 +2,17 @@ package yours.tool.springboot.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import yours.tool.springboot.helper.response.ResultResponse;
 import yours.tool.springboot.pojo.base.PageVo;
 import yours.tool.springboot.pojo.dto.CountDownDto;
 import yours.tool.springboot.pojo.dto.CountDownListDto;
+import yours.tool.springboot.pojo.dto.CountDownUpdateDto;
 import yours.tool.springboot.pojo.vo.CountDownListVo;
+import yours.tool.springboot.pojo.vo.CountDownVo;
 import yours.tool.springboot.service.CountDownService;
 
 import javax.validation.Valid;
@@ -42,5 +42,19 @@ public class CountDownController {
     @ApiOperation(value = "列表")
     public ResultResponse<PageVo<CountDownListVo>> list(@RequestBody @Valid CountDownListDto countDownDto) {
         return ResultResponse.ofSuccess( countDownService.list(countDownDto));
+    }
+
+    @GetMapping(value = "{countDownId}")
+    @ApiOperation(value = "详情")
+    public ResultResponse<CountDownVo> detail(@ApiParam(value = "countDownId") @PathVariable String countDownId) {
+
+        return ResultResponse.ofSuccess(countDownService.detail(countDownId));
+    }
+
+    @PostMapping(value = "update")
+    @ApiOperation(value = "修改")
+    public ResultResponse<Void> update(@RequestBody @Valid CountDownUpdateDto countDownUpdateDto) {
+        countDownService.update(countDownUpdateDto);
+        return ResultResponse.ofSuccess();
     }
 }
