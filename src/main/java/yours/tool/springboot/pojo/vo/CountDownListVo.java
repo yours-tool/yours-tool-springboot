@@ -1,4 +1,4 @@
-package yours.tool.springboot.pojo.dto;
+package yours.tool.springboot.pojo.vo;
 
 import com.google.common.collect.Lists;
 import io.swagger.annotations.ApiModel;
@@ -18,7 +18,7 @@ import java.util.List;
  * @version: v1.0
  **/
 @ApiModel(value = "倒计时入参")
-public class CountDownDto extends BaseDto {
+public class CountDownListVo extends BaseDto {
 
     @ApiModelProperty(value = "主题")
     @NotBlank(message = "主题不能为空")

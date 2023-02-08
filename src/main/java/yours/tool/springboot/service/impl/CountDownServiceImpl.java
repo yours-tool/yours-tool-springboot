@@ -1,15 +1,24 @@
 package yours.tool.springboot.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import yours.tool.springboot.mapper.CountDownMapper;
+import yours.tool.springboot.pojo.base.PageVo;
 import yours.tool.springboot.pojo.dto.CountDownDto;
+import yours.tool.springboot.pojo.dto.CountDownListDto;
 import yours.tool.springboot.pojo.entity.CountDown;
+import yours.tool.springboot.pojo.vo.CountDownListVo;
 import yours.tool.springboot.service.CountDownService;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -26,7 +35,7 @@ public class CountDownServiceImpl implements CountDownService {
     private CountDownMapper countDownMapper;
 
     @Override
-    public void addCountDown(CountDownDto countDownDto) {
+    public void add(CountDownDto countDownDto) {
         CountDown countDown = new CountDown();
         countDown.setCountDownId(IdUtil.getSnowflakeNextId());
         countDown.setUserId(1L);
@@ -37,4 +46,22 @@ public class CountDownServiceImpl implements CountDownService {
         countDown.setMoney(countDownDto.getMoney());
         countDownMapper.insert(countDown);
     }
+
+    @Override
+    public PageVo<CountDownListVo> list(CountDownListDto countDownDto) {
+        Page<CountDown> countDownListVoPage = new Page<>(countDownDto.getPage(), countDownDto.getSize());
+        LambdaQueryWrapper<CountDown> countDownLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        if (StrUtil.isNotBlank(countDownDto.getType())){
+            countDownLambdaQueryWrapper.eq(CountDown::getType,countDownDto.getType());
+        }
+        if (StrUtil.isNotBlank(countDownDto.getContent())){
+            countDownLambdaQueryWrapper.and(c->
+                    c.like(CountDown::getSubject,countDownDto.getContent())
+                    .or().like(CountDown::getLabel,countDownDto.getContent()));
+        }
+        countDownListVoPage = countDownMapper.selectPage(countDownListVoPage,countDownLambdaQueryWrapper);
+        List<CountDownListVo> countDownListVos = BeanUtil.copyToList(countDownListVoPage.getRecords(), CountDownListVo.class);
+        return new PageVo<>(countDownListVos, countDownListVoPage.getTotal());
+    }
+
 }

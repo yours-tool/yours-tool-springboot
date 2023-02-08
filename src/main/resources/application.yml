@@ -68,15 +68,9 @@ knife4j:
   enable: true
   # 是否开启一个默认的跨域配置,该功能配合自定义Host使用
   cors: true
-  # 是否开启生产环境保护策略
-  production: true
   # 对Knife4j提供的资源提供BasicHttp校验,保护文档
   info:
     title: yours-tool接口文档
-  basic:
-    enable: false
-    username: admin
-    password: 123456
   # 前端Ui的个性化配置属性
   setting:
     # 调试Tab是否显示AfterScript功能,默认开启

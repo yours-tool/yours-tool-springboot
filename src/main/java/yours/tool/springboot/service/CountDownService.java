@@ -1,6 +1,9 @@
 package yours.tool.springboot.service;
 
+import yours.tool.springboot.pojo.base.PageVo;
 import yours.tool.springboot.pojo.dto.CountDownDto;
+import yours.tool.springboot.pojo.dto.CountDownListDto;
+import yours.tool.springboot.pojo.vo.CountDownListVo;
 
 /**
  * @description: 接口
@@ -14,5 +17,12 @@ public interface CountDownService {
      * 添加倒计时
      * @param countDownDto
      */
-    void addCountDown(CountDownDto countDownDto);
+    void add(CountDownDto countDownDto);
+
+    /**
+     * 查询列表
+     * @param countDownDto
+     * @return
+     */
+    PageVo<CountDownListVo> list(CountDownListDto countDownDto);
 }

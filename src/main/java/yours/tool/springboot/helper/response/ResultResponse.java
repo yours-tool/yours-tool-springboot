@@ -13,6 +13,7 @@ import java.io.Serializable;
  * @Date 2021/6/17 16:08
  * @Version: v1.0
  */
+
 public class ResultResponse<T> implements Serializable {
 
     private static final long serialVersionUID = 5989814216497545490L;
