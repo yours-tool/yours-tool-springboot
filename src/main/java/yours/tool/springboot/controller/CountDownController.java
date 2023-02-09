@@ -57,4 +57,11 @@ public class CountDownController {
         countDownService.update(countDownUpdateDto);
         return ResultResponse.ofSuccess();
     }
+
+    @DeleteMapping(value = "{countDownId}")
+    @ApiOperation(value = "删除")
+    public ResultResponse<Void> delete(@ApiParam(value = "countDownId") @PathVariable String countDownId) {
+        countDownService.delete(countDownId);
+        return ResultResponse.ofSuccess();
+    }
 }

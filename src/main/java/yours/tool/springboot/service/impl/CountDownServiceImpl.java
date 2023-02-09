@@ -53,7 +53,7 @@ public class CountDownServiceImpl implements CountDownService {
         countDown.setType(countDownDto.getType());
         countDown.setDate(countDownDto.getDate());
         countDown.setLabel(ValidateUtil.isNotEmpty(countDownDto.getLabel())?countDownDto.getLabel().stream().collect(Collectors.joining("|")):"");
-        countDown.setMoney(ValidateUtil.isNotEmpty(countDownDto.getMoney())?countDown.getMoney():new BigDecimal("0"));
+        countDown.setMoney(ValidateUtil.isNotEmpty(countDownDto.getMoney())?countDownDto.getMoney():new BigDecimal("0"));
         countDownMapper.insert(countDown);
     }
 
@@ -79,7 +79,7 @@ public class CountDownServiceImpl implements CountDownService {
         countDownListVos.forEach(item->{
             item.setDay(Convert.toInt(DateUtil.between(beginToday, item.getDate(), DateUnit.DAY,false)));
             item.setType(CountDownTypeEnum.getMessage(item.getType()));
-            if (CollUtil.isNotEmpty(item.getLabel())){
+            if (ValidateUtil.isNotEmpty(item.getLabel())){
                 item.setLabel(Arrays.asList(item.getLabel().get(0).split("\\|")));
             }
         });
@@ -90,6 +90,9 @@ public class CountDownServiceImpl implements CountDownService {
     public CountDownVo detail(String countDownId) {
         CountDown countDown = countDownMapper.selectById(countDownId);
         CountDownVo countDownVo = BeanUtil.copyProperties(countDown, CountDownVo.class);
+        if (ValidateUtil.isNotEmpty(countDownVo.getLabel())){
+            countDownVo.setLabel(Arrays.asList(countDownVo.getLabel().get(0).split("\\|")));
+        }
         return countDownVo;
     }
 
@@ -101,9 +104,14 @@ public class CountDownServiceImpl implements CountDownService {
         countDown.setSubject(countDownUpdateDto.getSubject());
         countDown.setType(countDownUpdateDto.getType());
         countDown.setDate(countDownUpdateDto.getDate());
-        countDown.setLabel(countDownUpdateDto.getLabel().stream().collect(Collectors.joining("|")));
-        countDown.setMoney(countDownUpdateDto.getMoney());
+        countDown.setLabel(ValidateUtil.isNotEmpty(countDownUpdateDto.getLabel())?countDownUpdateDto.getLabel().stream().collect(Collectors.joining("|")):"");
+        countDown.setMoney(ValidateUtil.isNotEmpty(countDownUpdateDto.getMoney())?countDownUpdateDto.getMoney():new BigDecimal("0"));
         countDownMapper.updateById(countDown);
+    }
+
+    @Override
+    public void delete(String countDownId) {
+        countDownMapper.deleteById(countDownId);
     }
 
     public static void main(String[] args) {

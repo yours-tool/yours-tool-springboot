@@ -1,5 +1,6 @@
 package yours.tool.springboot.pojo.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.google.common.collect.Lists;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -20,12 +21,16 @@ import java.util.List;
 @ApiModel(value = "倒计时入参")
 public class CountDownVo extends BaseDto {
 
+    @ApiModelProperty(value = "倒计时id")
+    private String countDownId;
+
     @ApiModelProperty(value = "主题")
     private String subject;
 
     @ApiModelProperty(value = "类型")
     private String type;
 
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     @ApiModelProperty(value = "日期")
     private Date date;
 
@@ -34,6 +39,14 @@ public class CountDownVo extends BaseDto {
 
     @ApiModelProperty(value = "金额")
     private BigDecimal money = new BigDecimal(0);
+
+    public String getCountDownId() {
+        return countDownId;
+    }
+
+    public void setCountDownId(String countDownId) {
+        this.countDownId = countDownId;
+    }
 
     public String getSubject() {
         return subject;

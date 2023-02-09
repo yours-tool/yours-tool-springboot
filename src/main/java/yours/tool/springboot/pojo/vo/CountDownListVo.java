@@ -21,6 +21,9 @@ import java.util.List;
 @ApiModel(value = "倒计时入参")
 public class CountDownListVo extends BaseDto {
 
+    @ApiModelProperty(value = "倒计时id")
+    private String countDownId;
+
     @ApiModelProperty(value = "主题")
     private String subject;
 
@@ -39,6 +42,14 @@ public class CountDownListVo extends BaseDto {
 
     @ApiModelProperty(value = "金额")
     private BigDecimal money = new BigDecimal(0);
+
+    public String getCountDownId() {
+        return countDownId;
+    }
+
+    public void setCountDownId(String countDownId) {
+        this.countDownId = countDownId;
+    }
 
     public String getSubject() {
         return subject;

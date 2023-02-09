@@ -40,4 +40,10 @@ public interface CountDownService {
      * @param countDownUpdateDto
      */
     void update(CountDownUpdateDto countDownUpdateDto);
+
+    /**
+     * 删除
+     * @param countDownId
+     */
+    void delete(String countDownId);
 }
