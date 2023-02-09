@@ -1,15 +1,8 @@
 package yours.tool.springboot.pojo.dto;
 
-import com.google.common.collect.Lists;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import yours.tool.springboot.pojo.base.PageDto;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
 
 /**
  * @description: 倒计时
