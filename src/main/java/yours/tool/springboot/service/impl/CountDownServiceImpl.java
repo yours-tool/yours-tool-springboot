@@ -1,7 +1,11 @@
 package yours.tool.springboot.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.convert.Convert;
+import cn.hutool.core.date.DateTime;
+import cn.hutool.core.date.DateUnit;
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -10,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import yours.tool.springboot.enums.CountDownTypeEnum;
 import yours.tool.springboot.mapper.CountDownMapper;
 import yours.tool.springboot.pojo.base.PageVo;
 import yours.tool.springboot.pojo.dto.CountDownDto;
@@ -19,7 +24,10 @@ import yours.tool.springboot.pojo.entity.CountDown;
 import yours.tool.springboot.pojo.vo.CountDownListVo;
 import yours.tool.springboot.pojo.vo.CountDownVo;
 import yours.tool.springboot.service.CountDownService;
+import yours.tool.springboot.util.ValidateUtil;
 
+import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,8 +52,8 @@ public class CountDownServiceImpl implements CountDownService {
         countDown.setSubject(countDownDto.getSubject());
         countDown.setType(countDownDto.getType());
         countDown.setDate(countDownDto.getDate());
-        countDown.setLabel(countDownDto.getLabel().stream().collect(Collectors.joining("|")));
-        countDown.setMoney(countDownDto.getMoney());
+        countDown.setLabel(ValidateUtil.isNotEmpty(countDownDto.getLabel())?countDownDto.getLabel().stream().collect(Collectors.joining("|")):"");
+        countDown.setMoney(ValidateUtil.isNotEmpty(countDownDto.getMoney())?countDown.getMoney():new BigDecimal("0"));
         countDownMapper.insert(countDown);
     }
 
@@ -61,8 +69,20 @@ public class CountDownServiceImpl implements CountDownService {
                     c.like(CountDown::getSubject,countDownDto.getContent())
                     .or().like(CountDown::getLabel,countDownDto.getContent()));
         }
+        DateTime today = DateUtil.date();
+        DateTime beginToday = DateUtil.beginOfDay(today);
+        countDownLambdaQueryWrapper.ge(CountDown::getDate,beginToday);
+        countDownLambdaQueryWrapper.orderByAsc(CountDown::getDate);
         countDownListVoPage = countDownMapper.selectPage(countDownListVoPage,countDownLambdaQueryWrapper);
         List<CountDownListVo> countDownListVos = BeanUtil.copyToList(countDownListVoPage.getRecords(), CountDownListVo.class);
+
+        countDownListVos.forEach(item->{
+            item.setDay(Convert.toInt(DateUtil.between(beginToday, item.getDate(), DateUnit.DAY,false)));
+            item.setType(CountDownTypeEnum.getMessage(item.getType()));
+            if (CollUtil.isNotEmpty(item.getLabel())){
+                item.setLabel(Arrays.asList(item.getLabel().get(0).split("\\|")));
+            }
+        });
         return new PageVo<>(countDownListVos, countDownListVoPage.getTotal());
     }
 
@@ -84,6 +104,13 @@ public class CountDownServiceImpl implements CountDownService {
         countDown.setLabel(countDownUpdateDto.getLabel().stream().collect(Collectors.joining("|")));
         countDown.setMoney(countDownUpdateDto.getMoney());
         countDownMapper.updateById(countDown);
+    }
+
+    public static void main(String[] args) {
+        DateTime date = DateUtil.date();
+        DateTime dateTime = DateUtil.offsetDay(date,1);
+        long between = DateUtil.between(date, dateTime, DateUnit.DAY,false);
+        System.err.println(between);
     }
 
 }

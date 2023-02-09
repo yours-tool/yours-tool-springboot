@@ -36,7 +36,7 @@ public class CountDownDto extends BaseDto {
     private List<String> label = Lists.newArrayList();
 
     @ApiModelProperty(value = "金额")
-    private BigDecimal money = new BigDecimal(0);
+    private BigDecimal money;
 
     public String getSubject() {
         return subject;

@@ -1,5 +1,6 @@
 package yours.tool.springboot.pojo.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.google.common.collect.Lists;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -21,16 +22,17 @@ import java.util.List;
 public class CountDownListVo extends BaseDto {
 
     @ApiModelProperty(value = "主题")
-    @NotBlank(message = "主题不能为空")
     private String subject;
 
     @ApiModelProperty(value = "类型")
-    @NotBlank(message = "类型不能为空")
     private String type;
 
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     @ApiModelProperty(value = "日期")
-    @NotNull(message = "日期不能为空")
     private Date date;
+
+    @ApiModelProperty(value = "天")
+    private Integer day;
 
     @ApiModelProperty(value = "标签")
     private List<String> label = Lists.newArrayList();
@@ -76,5 +78,13 @@ public class CountDownListVo extends BaseDto {
 
     public void setMoney(BigDecimal money) {
         this.money = money;
+    }
+
+    public Integer getDay() {
+        return day;
+    }
+
+    public void setDay(Integer day) {
+        this.day = day;
     }
 }

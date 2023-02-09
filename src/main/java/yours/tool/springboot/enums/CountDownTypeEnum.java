@@ -10,8 +10,10 @@ public enum CountDownTypeEnum {
 
     //空
     EMPTY("EMPTY","空"),
+    //法定节日
+    FESTIVAL("FESTIVAL","法定节日"),
     //法定节假日
-    STATUTORY("STATUTORY","法定节假日"),
+    STATUTORY_HOLIDAY("STATUTORY_HOLIDAY","法定节假日"),
     //续费
     RENEW("RENEW","续费"),
     //事件
@@ -25,9 +27,9 @@ public enum CountDownTypeEnum {
     private String code;
 
     private String message;
-    public static String getMessage(Integer value){
+    public static String getMessage(String code){
         for (CountDownTypeEnum thisEnum: CountDownTypeEnum.values()) {
-            if (thisEnum.getCode().equals(value)) {
+            if (thisEnum.getCode().equals(code)) {
                 return thisEnum.getMessage();
             }
         }
